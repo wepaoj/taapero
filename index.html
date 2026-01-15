@@ -63,55 +63,12 @@
 
   <script>
     const items = [
-      { word: "kissa", img: "https://source.unsplash.com/400x300/?cat" },
-      { word: "koira", img: "https://source.unsplash.com/400x300/?dog" },
-      { word: "hevonen", img: "https://source.unsplash.com/400x300/?horse" },
-      { word: "lehmä", img: "https://source.unsplash.com/400x300/?cow" },
-      { word: "lammas", img: "https://source.unsplash.com/400x300/?sheep" },
-      { word: "kana", img: "https://source.unsplash.com/400x300/?chicken" },
-      { word: "norsu", img: "https://source.unsplash.com/400x300/?elephant" },
-      { word: "leijona", img: "https://source.unsplash.com/400x300/?lion" },
-      { word: "auto", img: "https://source.unsplash.com/400x300/?car" },
-      { word: "paloauto", img: "https://source.unsplash.com/400x300/?firetruck" },
-      { word: "juna", img: "https://source.unsplash.com/400x300/?train" },
-      { word: "lentokone", img: "https://source.unsplash.com/400x300/?airplane" },
-      { word: "vene", img: "https://source.unsplash.com/400x300/?boat" },
-      { word: "polkupyörä", img: "https://source.unsplash.com/400x300/?bicycle" },
-      { word: "omena", img: "https://source.unsplash.com/400x300/?apple" },
-      { word: "banaani", img: "https://source.unsplash.com/400x300/?banana" },
-      { word: "leipä", img: "https://source.unsplash.com/400x300/?bread" },
-      { word: "maito", img: "https://source.unsplash.com/400x300/?milk" },
-      { word: "lusikka", img: "https://source.unsplash.com/400x300/?spoon" },
-      { word: "pallo", img: "https://source.unsplash.com/400x300/?ball" },
-      { word: "nukke", img: "https://source.unsplash.com/400x300/?doll" },
-      { word: "karhu", img: "https://source.unsplash.com/400x300/?bear" },
-      { word: "ankka", img: "https://source.unsplash.com/400x300/?duck" },
-      { word: "kala", img: "https://source.unsplash.com/400x300/?fish" },
-      { word: "lintu", img: "https://source.unsplash.com/400x300/?bird" },
-      { word: "tähti", img: "https://source.unsplash.com/400x300/?star" },
-      { word: "kuu", img: "https://source.unsplash.com/400x300/?moon" },
-      { word: "aurinko", img: "https://source.unsplash.com/400x300/?sun" },
-      { word: "kello", img: "https://source.unsplash.com/400x300/?clock" },
-      { word: "kirja", img: "https://source.unsplash.com/400x300/?book" },
-      { word: "kynä", img: "https://source.unsplash.com/400x300/?pen" },
-      { word: "tuoli", img: "https://source.unsplash.com/400x300/?chair" },
-      { word: "pöytä", img: "https://source.unsplash.com/400x300/?table" },
-      { word: "sänky", img: "https://source.unsplash.com/400x300/?bed" },
-      { word: "ovi", img: "https://source.unsplash.com/400x300/?door" },
-      { word: "ikkuna", img: "https://source.unsplash.com/400x300/?window" },
-      { word: "kenkä", img: "https://source.unsplash.com/400x300/?shoe" },
-      { word: "hattu", img: "https://source.unsplash.com/400x300/?hat" },
-      { word: "takki", img: "https://source.unsplash.com/400x300/?jacket" },
-      { word: "puu", img: "https://source.unsplash.com/400x300/?tree" },
-      { word: "kukka", img: "https://source.unsplash.com/400x300/?flower" },
-      { word: "kivi", img: "https://source.unsplash.com/400x300/?stone" },
-      { word: "vesi", img: "https://source.unsplash.com/400x300/?water" },
-      { word: "hiekka", img: "https://source.unsplash.com/400x300/?sand" },
-      { word: "lumi", img: "https://source.unsplash.com/400x300/?snow" },
-      { word: "sateenkaari", img: "https://source.unsplash.com/400x300/?rainbow" },
-      { word: "talo", img: "https://source.unsplash.com/400x300/?house" },
-      { word: "traktori", img: "https://source.unsplash.com/400x300/?tractor" }
-    ];
+  { word: "kissa", img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600" },
+  { word: "koira", img: "https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?w=600" },
+  { word: "hevonen", img: "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600" },
+  { word: "lehmä", img: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=600" },
+  { word: "paloauto", img: "https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=600" }
+];
 
     let index = 0;
     let recognition;
@@ -133,16 +90,30 @@
     }
 
     function startListening() {
-      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'fi-FI';
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'fi-FI';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-      recognition.onresult = (event) => {
-        const spoken = event.results[0][0].transcript.toLowerCase();
-        if (spoken.includes(items[index].word)) {
-          speak('Hyvä!', nextItem);
-        }
+  recognition.onresult = (event) => {
+    const spoken = event.results[0][0].transcript.toLowerCase();
+    const target = items[index].word;
+
+    if (spoken.includes(target)) {
+      speak('Hyvä!', nextItem);
+    } else {
+      speak('Yritä uudestaan', () => {
+        speak(target, startListening);
+      });
+    }
+  };
+
+  recognition.onerror = () => {
+    speak(items[index].word, startListening);
+  };
+
+  recognition.start();
+}
       };
 
       recognition.start();
