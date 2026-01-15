@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Opitaan sanoja</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    #card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      max-width: 420px;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+    }
+    #word {
+      font-size: 3.2rem;
+      margin: 20px 0;
+      display: none;
+    }
+    #status {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #555;
+    }
+    button {
+      margin-top: 20px;
+      padding: 18px 28px;
+      font-size: 1.6rem;
+      border: none;
+      border-radius: 18px;
+      background: #4caf50;
+      color: white;
+    }
+  </style>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4caf50" />
+</head>
+<body>
+  <h1>Opitaan sanoja</h1>
+
+  <div id="card">
+    <img id="image" src="" alt="" />
+    <div id="word"></div>
+    <div id="status">Paina aloita</div>
+    <button onclick="startGame()">ALOITA</button>
+  </div>
+
+  <script>
+    const items = [
+      { word: "kissa", img: "https://source.unsplash.com/400x300/?cat" },
+      { word: "koira", img: "https://source.unsplash.com/400x300/?dog" },
+      { word: "hevonen", img: "https://source.unsplash.com/400x300/?horse" },
+      { word: "lehmä", img: "https://source.unsplash.com/400x300/?cow" },
+      { word: "lammas", img: "https://source.unsplash.com/400x300/?sheep" },
+      { word: "kana", img: "https://source.unsplash.com/400x300/?chicken" },
+      { word: "norsu", img: "https://source.unsplash.com/400x300/?elephant" },
+      { word: "leijona", img: "https://source.unsplash.com/400x300/?lion" },
+      { word: "auto", img: "https://source.unsplash.com/400x300/?car" },
+      { word: "paloauto", img: "https://source.unsplash.com/400x300/?firetruck" },
+      { word: "juna", img: "https://source.unsplash.com/400x300/?train" },
+      { word: "lentokone", img: "https://source.unsplash.com/400x300/?airplane" },
+      { word: "vene", img: "https://source.unsplash.com/400x300/?boat" },
+      { word: "polkupyörä", img: "https://source.unsplash.com/400x300/?bicycle" },
+      { word: "omena", img: "https://source.unsplash.com/400x300/?apple" },
+      { word: "banaani", img: "https://source.unsplash.com/400x300/?banana" },
+      { word: "leipä", img: "https://source.unsplash.com/400x300/?bread" },
+      { word: "maito", img: "https://source.unsplash.com/400x300/?milk" },
+      { word: "lusikka", img: "https://source.unsplash.com/400x300/?spoon" },
+      { word: "pallo", img: "https://source.unsplash.com/400x300/?ball" },
+      { word: "nukke", img: "https://source.unsplash.com/400x300/?doll" },
+      { word: "karhu", img: "https://source.unsplash.com/400x300/?bear" },
+      { word: "ankka", img: "https://source.unsplash.com/400x300/?duck" },
+      { word: "kala", img: "https://source.unsplash.com/400x300/?fish" },
+      { word: "lintu", img: "https://source.unsplash.com/400x300/?bird" },
+      { word: "tähti", img: "https://source.unsplash.com/400x300/?star" },
+      { word: "kuu", img: "https://source.unsplash.com/400x300/?moon" },
+      { word: "aurinko", img: "https://source.unsplash.com/400x300/?sun" },
+      { word: "kello", img: "https://source.unsplash.com/400x300/?clock" },
+      { word: "kirja", img: "https://source.unsplash.com/400x300/?book" },
+      { word: "kynä", img: "https://source.unsplash.com/400x300/?pen" },
+      { word: "tuoli", img: "https://source.unsplash.com/400x300/?chair" },
+      { word: "pöytä", img: "https://source.unsplash.com/400x300/?table" },
+      { word: "sänky", img: "https://source.unsplash.com/400x300/?bed" },
+      { word: "ovi", img: "https://source.unsplash.com/400x300/?door" },
+      { word: "ikkuna", img: "https://source.unsplash.com/400x300/?window" },
+      { word: "kenkä", img: "https://source.unsplash.com/400x300/?shoe" },
+      { word: "hattu", img: "https://source.unsplash.com/400x300/?hat" },
+      { word: "takki", img: "https://source.unsplash.com/400x300/?jacket" },
+      { word: "puu", img: "https://source.unsplash.com/400x300/?tree" },
+      { word: "kukka", img: "https://source.unsplash.com/400x300/?flower" },
+      { word: "kivi", img: "https://source.unsplash.com/400x300/?stone" },
+      { word: "vesi", img: "https://source.unsplash.com/400x300/?water" },
+      { word: "hiekka", img: "https://source.unsplash.com/400x300/?sand" },
+      { word: "lumi", img: "https://source.unsplash.com/400x300/?snow" },
+      { word: "sateenkaari", img: "https://source.unsplash.com/400x300/?rainbow" },
+      { word: "talo", img: "https://source.unsplash.com/400x300/?house" },
+      { word: "traktori", img: "https://source.unsplash.com/400x300/?tractor" }
+    ];
+
+    let index = 0;
+    let recognition;
+
+    function speak(text, callback) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fi-FI';
+      utterance.onend = callback;
+      speechSynthesis.speak(utterance);
+    }
+
+    function showItem() {
+      const item = items[index];
+      document.getElementById('image').src = item.img;
+      // sanaa ei näytetä tekstinä taaperolle
+      document.getElementById('status').textContent = 'Kuuntelee...';
+
+      speak(item.word, startListening);
+    }
+
+    function startListening() {
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'fi-FI';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const spoken = event.results[0][0].transcript.toLowerCase();
+        if (spoken.includes(items[index].word)) {
+          speak('Hyvä!', nextItem);
+        }
+      };
+
+      recognition.start();
+    }
+
+    function nextItem() {
+      index++;
+      if (index < items.length) {
+        showItem();
+      } else {
+        speak('Hienoa! Kaikki sanat opittu.');
+        document.getElementById('status').textContent = 'Valmis!';
+      }
+    }
+
+    function startGame() {
+      index = 0;
+      showItem();
+    }
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
